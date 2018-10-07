@@ -9,7 +9,7 @@ BOX_NOSYNC = true
 PASSWORD = "password"
 
 # Ansible playbook and options
-PLAYBOOK_ARGS="default.yml --tags userenv,docker,emacs"
+PLAYBOOK_ARGS="default.yml --tags docker"
 
 Vagrant.configure("2") do |config|
         passkey = PASSWORD
@@ -31,6 +31,6 @@ Vagrant.configure("2") do |config|
 Add this line to your Windows hosts file: #{BOX_IP} #{BOX_NAME}.#{BOX_DOMAIN}
 Login with putty as user #{ENV['USERNAME']}/#{PASSWORD}"]
 	end
-	config.vm.provision 'shell', inline: "curl -s https://raw.githubusercontent.com/hbraux/deploy/master/deploy.sh | bash -s #{ENV['USERNAME']} '#{passkey}' #{ENV['CENTOS_MIRROR']} #{PLAYBOOK_OPTS}"
+	config.vm.provision 'shell', inline: "curl -s https://raw.githubusercontent.com/hbraux/deploy/master/deploy.sh | bash -s #{ENV['USERNAME']} '#{passkey}' #{ENV['CENTOS_MIRROR']} #{PLAYBOOK_ARGS}"
 end
 
