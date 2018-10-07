@@ -8,8 +8,6 @@
 #  $3  fqdn or @IP of a CentOS mirror (optional)
 #  $4+ ansible playbook and options
 
-GITHUB_REPO=hbraux/deploy
-
 # the script can be run locally from the Git repo 
 if [[ -f ./default.yml ]]; then
   echo "(deploy.sh) LOCAL MODE"
@@ -135,8 +133,8 @@ cat >vagrant.yml <<EOF
 
     - name: clone the git repo
       git:
-        repo: https://github.com/{{ github_repo }}.git
-        dest: /home/{{ username }}/git/{{ github_repo }}
+        repo: https://github.com/hbraux/deploy.git
+        dest: /home/{{ username }}/git/deploy
 
     - name: update the owner
       file:
@@ -201,15 +199,15 @@ cat >vagrant.yml <<EOF
 EOF
 
 echo "(deploy.sh) executing as root embedded playbook"
-ansible-playbook vagrant.yml -e github_repo=$GITHUB_REPO -e username=$user -e "password=\"$pass\"" -e centos_mirror="$mirror" -i localhost,
+ansible-playbook vagrant.yml -e username=$user -e "password=\"$pass\"" -e centos_mirror="$mirror" -i localhost,
 
 echo "(deploy.sh) SETUP ============================================================="
 
 if [[ ${1#*.} == yml ]]; then
-  playbook=/home/$user/git/$GITHUB_REPO/$1
+  playbook=/home/$user/git/deploy/$1
   shift
 else
-  playbook=/home/$user/git/$GITHUB_REPO/default.yml
+  playbook=/home/$user/git/deploy/default.yml
 fi
 if [[ ! -f $playbook ]] ; then 
   echo "ERROR: file $playbook doesnot exist"; exit 1
@@ -218,7 +216,6 @@ fi
 opts="--connection=local -i $(uname -n), $*"
 echo "(deploy.sh) executing as user $user: ansible-playbook $playbook $opts"
 su - $user -c "ansible-playbook $playbook $opts"
-fi
 
 echo "(deploy.sh) Cleansing /vagrant"
 rm -fr /vagrant

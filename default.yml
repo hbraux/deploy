@@ -1,5 +1,4 @@
-
-- name: deploy.yml
+- name: default.yml
   hosts: all
   vars:
     ansible_cache: /vagrant/cache

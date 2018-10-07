@@ -1,4 +1,11 @@
 ---
+- set_fact:
+    repo_dir: "{{ ansible_env.HOME }}/git/userenv"
+
+- name: clone the git repo userenv
+  git:
+    repo: https://github.com/hbraux/userenv.git
+    dest: "{{ repo_dir }}"
 
 - name: get fqdn
   shell: uname -n
