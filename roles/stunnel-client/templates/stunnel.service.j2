@@ -1,0 +1,16 @@
+[Unit]
+Description=SSL tunnel for network daemons
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=forking
+User={{ stunnel.user }}
+PIDFile=/var/run/stunnel/stunnel.pid
+ExecStart=/usr/bin/stunnel /etc/stunnel/stunnel.conf
+
+[Install]
+WantedBy=multi-user.target
+

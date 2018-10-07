@@ -1,0 +1,61 @@
+- name: fix Kernel settings for docker
+  copy:
+    src: 01-docker.conf
+    dest: /etc/sysctl.d/01-docker.conf
+
+- name: add Docker CE repository
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+
+- name : install docker
+  yum:
+    name: docker-ce
+
+- name: create directory /etc/systemd/system/docker.service.d
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+
+- name: configure proxy for docker
+  template:
+    src: http-proxy.conf.j2
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+  when: ansible_env.http_proxy is defined
+  
+- name: creates /etc/docker
+  file:
+    path: /etc/docker
+    state: directory
+    mode: a+rx
+
+- name: get hostname
+  shell: uname -n
+  register: hostname_cmd
+
+- set_fact:
+    fqdn: "{{ hostname_cmd.stdout }}"
+
+- name: configure docker
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+
+- name: configure docker.sh
+  template:
+    src: docker.sh.j2
+    dest: /etc/profile.d/docker.sh
+
+- name: start docker services
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: install docker-compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.19.0/docker-compose-Linux-x86_64
+    dest: /usr/bin/docker-compose
+    mode: 0755
+  become: true
+

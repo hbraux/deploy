@@ -1,0 +1,9 @@
+stunnel:
+  user: stunnel
+  server_name: stunnel_server
+  remote_port: 443
+  local_port: 8443
+  foreground: "no"
+
+
+

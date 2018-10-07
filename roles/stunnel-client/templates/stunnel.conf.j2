@@ -1,0 +1,11 @@
+pid = /var/run/stunnel/stunnel.pid
+cert = /etc/pki/tls/certs/stunnel.pem
+client = yes
+foreground = {{ stunnel.foreground }}
+[ssh]
+accept = 127.0.0.1:{{ stunnel.local_port }}
+protocol = connect
+protocolAuthentication = basic
+protocolHost = {{ server_ip }}:{{ stunnel.remote_port }}
+connect = {{ ansible_env.http_proxy.split('/')[2] }}
+

@@ -1,0 +1,39 @@
+---
+
+- name: check for oracle-instantclient packages in {{ vagrant_cache }}
+  find:
+    path: "{{ vagrant_cache }}"
+    patterns: "oracle-instantclient{{ oracle.version }}*.rpm"
+  ignore_errors: yes
+  register: rpm_files
+
+- name: install packages from cache
+  yum:
+    name: "{{ rpm_files.files|map(attribute='path')|list }}"
+  when: rpm_files.matched > 0
+
+- name: install packages from webcache
+  yum:
+    name: "{{ oracle.webcache }}oracle-instantclient{{ oracle.version }}-{{ item }}-{{ oracle.release }}.x86_64.rpm"
+  with_items: 
+    - basic
+    - devel
+    - jdbc
+    - sqlplus
+  when: rpm_files.matched == 0
+
+- name: create missing directories
+  file:
+    path: /usr/lib/oracle/{{ oracle.version }}/client64/${{ item }}
+    state: directory
+    mode: a+rx
+  with_items:
+    - rdbms/public
+    - network/admin
+
+- name: add oracle.sh in /etc/profile.d to update the PATH
+  template:
+    src: oracle.sh.j2
+    dest: /etc/profile.d/oracle.sh
+    mode: 0644
+

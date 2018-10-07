@@ -1,0 +1,5 @@
+oracle:
+  version: 12.1
+  release: 12.1.0.2.0-1
+  webcache: http://164.132.225.18/files/
+  

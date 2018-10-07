@@ -1,0 +1,23 @@
+;; .emacs
+
+(custom-set-variables
+ ;; uncomment to always end a file with a newline
+ ;'(require-final-newline t)
+ ;; uncomment to disable loading of "default.el" at startup
+ ;'(inhibit-default-init t)
+ ;; default to unified diffs
+ '(diff-switches "-u"))
+
+;;; uncomment for CJK utf-8 support for non-Asian users
+;; (require 'un-define)
+
+(setq vc-follow-symlinks t)
+(setq auto-save-default nil)
+(setq sh-basic-offset 2)
+(autoload 'yaml-mode "yaml-mode" "yaml-mode" t)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+
+(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-hook 'markdown-mode-hook 'flyspell-mode)
+

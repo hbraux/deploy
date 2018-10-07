@@ -1,0 +1,7 @@
+python3:
+  packages:
+    - urllib3
+    - requests
+    - openpyxl 
+    - pycodestyle
+

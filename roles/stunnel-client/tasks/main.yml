@@ -1,0 +1,50 @@
+- fail:
+    msg: http_proxy is empty
+  when: ansible_env.http_proxy is not defined
+
+- name: get server IP
+  shell: getent hosts {{ stunnel.server_name }} 
+  register: getent_cmd
+  changed_when: false
+
+- set_fact:
+    server_ip: "{{ getent_cmd.stdout.split(' ')[0] }}"
+
+- name: install stunnel
+  yum:
+    name: stunnel
+
+- name: create user {{ stunnel.user }}
+  user:
+    name: "{{ stunnel.user }}"
+
+# certificate to be clarified
+- name: create certificate
+  shell: cd /etc/pki/tls/certs && make stunnel.pem && chmod a+r stunnel.pem
+  args:
+    creates: /etc/pki/tls/certs/stunnel.pem
+  when: false
+
+- name: install certificate
+  copy:
+    src: stunnel.pem
+    dest: /etc/pki/tls/certs/stunnel.pem
+    mode: 0444
+  when: true
+
+- name: create stunnel.conf
+  template:
+    src: stunnel.conf.j2
+    dest: /etc/stunnel/stunnel.conf
+    owner: "{{ stunnel.user }}"
+
+- name: override binary (single thread)
+  copy:
+    src: files/stunnel
+    dest: /usr/bin/stunnel
+
+- name: create systemd script
+  template:
+    src: stunnel.service.j2
+    dest: /etc/systemd/system/stunnel.service
+

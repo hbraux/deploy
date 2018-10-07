@@ -1,0 +1,11 @@
+---
+
+- name: install emacs
+  yum:
+    name: emacs-nox
+
+- name: install emacs modes
+  yum:
+    name: ["emacs-yaml-mode"]
+
+
