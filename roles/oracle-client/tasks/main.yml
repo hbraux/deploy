@@ -1,8 +1,8 @@
 ---
 
-- name: check for oracle-instantclient packages in {{ vagrant_cache }}
+- name: check for oracle-instantclient packages in {{ ansible_cache }}
   find:
-    path: "{{ vagrant_cache }}"
+    path: "{{ ansible_cache }}"
     patterns: "oracle-instantclient{{ oracle.version }}*.rpm"
   ignore_errors: yes
   register: rpm_files

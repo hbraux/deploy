@@ -1,7 +1,7 @@
-- name: default.yml
+- name: all.yml
   hosts: all
   vars:
-    ansible_cache: /vagrant/cache
+    ansible_cache: /var/cache/ansible
   roles:
     - { role: 'work-env', tags: 'work-env' }
     - { role: 'emacs', become: yes, tags: 'emacs' }

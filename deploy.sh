@@ -196,12 +196,6 @@ cat >vagrant.yml <<EOF
       with_items: "{{ rpm_files.files|map(attribute='path')|list }}"
       when: rpm_files.matched > 0
 
-    - name: remove vagrant user
-      user:
-        name: vagrant
-        state: absent
-        remove: yes
-
   handlers:
     - name: restart sshd
       service:
@@ -219,7 +213,7 @@ if [[ ! -f $playbook ]] ; then
   echo "ERROR: file $playbook doesnot exist"; exit 1
 fi
 
-opts="--connection=local -i $(uname -n), $*"
+opts="--connection=local -i $(uname -n), -e ansible_cache=/vagrant/cache $*"
 echo "(deploy.sh) executing as user $user: ansible-playbook $playbook $opts"
 su - $user -c "ansible-playbook $playbook $opts"
 
