@@ -1,30 +1,35 @@
 #!/bin/bash
 # This generic script is downloaded and executed by Vagrant provision
 # It installs ansible, runs the embedded playbook which creates a user and 
-# clones the Git repo, then runs the Ansible script default.yml 
+# clones the Git repo, then runs the Ansible playbook given in arguments
 # Input arguments: 
 #  $1  Unix user to be created
 #  $2  password or public SSH key (id-rsa xxx)
 #  $3  fqdn or @IP of a CentOS mirror (optional)
 #  $4+ ansible playbook and options
 
-# the script can be run locally from the Git repo 
-if [[ -f ./default.yml ]]; then
-  echo "(deploy.sh) LOCAL MODE"
-  if [[ -f $1 && ${1#*.} == yml ]]; then 
+# if the script was not invoked by vagrant, it's a local execution
+who am i | grep -q vagrant
+if [[ $? -ne 0 ]]; then
+  if [[ ${1#*.} == yml ]]; then 
+    if [[ -f $1 ]]; then
       playbook=$1
-      shift
+    else 
+      playbook=$HOME/git/deploy/$1
+    fi
+    shift
   else
-      playbook=default.yml
+    playbook=$HOME/git/deploy/$1
   fi
+  echo "(deploy.sh) Executing on localhost: ansible-playbook $playbook $*"
   ansible-playbook --connection=local -i localhost, $playbook $* 
   exit
 fi
 
 echo "(deploy.sh) BEGIN ============================================================="
 
-if [[ $# -lt 2 ]] ; then
-   echo "(deploy.sh) expecting USERNAME PASSWORD [CENTOS_MIRROR] [PLAYBOOK] [PLAYBOOK_OPTS...]"
+if [[ $# -lt 3 ]] ; then
+   echo "(deploy.sh) expecting USERNAME PASSWORD [CENTOS_MIRROR] PLAYBOOK [PLAYBOOK_OPTS]"
    exit 1
 fi
 user=$1
@@ -36,8 +41,8 @@ if [[ -n $http_proxy ]] ; then
   echo "(deploy.sh) using proxy variables http_proxy=$http_proxy https_proxy=$https_proxy no_proxy=$no_proxy"
 fi
 
-# is next argument a FQDN or not a playbook
-if [[ -n $1 && ${1#*.} != yml && ${1:0:1} != - ]] ; then
+# if next argument is not a playbook, then it's a FQDN
+if [[ ${1#*.} != yml ]] ; then
   mirror=$1
   shift
   grep -q $mirror /etc/yum.repos.d/CentOS-Base.repo 
@@ -191,6 +196,12 @@ cat >vagrant.yml <<EOF
       with_items: "{{ rpm_files.files|map(attribute='path')|list }}"
       when: rpm_files.matched > 0
 
+    - name: remove vagrant user
+      user:
+        name: vagrant
+        state: absent
+        remove: yes
+
   handlers:
     - name: restart sshd
       service:
@@ -203,12 +214,7 @@ ansible-playbook vagrant.yml -e username=$user -e "password=\"$pass\"" -e centos
 
 echo "(deploy.sh) SETUP ============================================================="
 
-if [[ ${1#*.} == yml ]]; then
-  playbook=/home/$user/git/deploy/$1
-  shift
-else
-  playbook=/home/$user/git/deploy/default.yml
-fi
+playbook=/home/$user/git/deploy/$1
 if [[ ! -f $playbook ]] ; then 
   echo "ERROR: file $playbook doesnot exist"; exit 1
 fi

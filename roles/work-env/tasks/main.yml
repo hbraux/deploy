@@ -1,0 +1,18 @@
+---
+- set_fact:
+    repo_dir: "{{ ansible_env.HOME }}/git/work-env"
+
+- name: clone the git repo userenv
+  git:
+    repo: https://github.com/hbraux/work-env.git
+    dest: "{{ repo_dir }}"
+
+- name: create the link
+  file:
+    src: "{{ repo_dir }}/roles/work-env"
+    dest: "{{ playbook_dir }}/roles/work-env"
+    state: link
+
+- name: run the embedded playbook
+  tasks:
+    include:
