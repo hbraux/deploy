@@ -69,11 +69,7 @@ cat >vagrant.yml <<EOF
     - name: install must-have packages
       yum:
         name: "{{ item }}"
-      with_items:
-        - sudo
-        - git
-        - make
-        - nano
+      with_items: ["sudo","git","nano"]
 
     - name: ensure that wheel group exist
       group:
@@ -92,12 +88,13 @@ cat >vagrant.yml <<EOF
         group: users
         groups: wheel
 
-    - name: create directory .ssh
+    - name: create user's directories
       file:
-        path: /home/{{ username }}/.ssh
+        path: /home/{{ username }}/{{ item }}
         owner: "{{ username }}"
         state: directory
         mode: 0700
+      with_items: [".ssh", "bin", "git"]
 
     - name: add public key to user {{ username }}
       authorized_key:
@@ -143,7 +140,7 @@ cat >vagrant.yml <<EOF
 
     - name: update the owner
       file:
-        path: /home/{{ username }}/git
+        path: /home/{{ username }}
         owner: "{{ username }}"
         group: users
         recurse: yes
