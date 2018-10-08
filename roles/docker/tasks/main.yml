@@ -32,6 +32,7 @@
 - name: get hostname
   shell: uname -n
   register: hostname_cmd
+  changed_when: false
 
 - set_fact:
     fqdn: "{{ hostname_cmd.stdout }}"

@@ -11,7 +11,7 @@
 # if the script was not invoked by vagrant, it's a local execution
 who am i | grep -q vagrant
 if [[ $? -ne 0 ]]; then
-  if [[ ${1#*.} == yml ]]; then 
+  if [[ ${1##*.} == yml ]]; then 
     if [[ -f $1 ]]; then
       playbook=$1
     else 
@@ -19,7 +19,7 @@ if [[ $? -ne 0 ]]; then
     fi
     shift
   else
-    playbook=$HOME/git/deploy/$1
+    playbook=$HOME/git/deploy/all.yml
   fi
   echo "(deploy.sh) Executing on localhost: ansible-playbook $playbook $*"
   ansible-playbook --connection=local -i localhost, $playbook $* 

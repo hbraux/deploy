@@ -14,5 +14,5 @@
     state: link
 
 - name: run the embedded playbook
-  tasks:
-    include:
+  include_tasks: "{{ playbook_dir }}/roles/work-env/setup.yml"
+

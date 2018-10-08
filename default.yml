@@ -3,12 +3,6 @@
   vars:
     ansible_cache: /vagrant/cache
   roles:
-    - { role: 'userenv', tags: 'userenv' }
-    - { role: 'emacs', become: yes, tags: 'emacs' }
     - { role: 'docker', become: yes, tags: 'docker' }
-    - { role: 'oracle-client', become: yes, tags: 'oracle-client' }
-    - { role: 'jdk', become: yes, tags: 'jdk' }
-    - { role: 'stunnel-client', become: yes, tags: 'stunnel-client' }
-    - { role: 'python3', become: yes, tags: 'python3' }
 
 
