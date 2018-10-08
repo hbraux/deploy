@@ -1,0 +1,21 @@
+---
+
+- set_fact:
+    repo_dir: "{{ ansible_env.HOME }}/git/{{ role_name}}"
+
+- name: check if {{ repo_dir }} exists
+  stat:
+    path: "{{ repo_dir }}"
+  register: st
+    
+- name: clone the github repo
+  git:
+    repo: https://github.com/hbraux/{{ role_name}}.git
+    dest: "{{ repo_dir }}"
+  delegate_to: localhost
+  when: not st.stat.exists
+
+- name: run the embedded playbook ansible/setup.yml
+  include_tasks: "{{ repo_dir }}/ansible/setup.yml"
+
+

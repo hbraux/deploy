@@ -3,12 +3,13 @@
   vars:
     ansible_cache: /var/cache/ansible
   roles:
-    - { role: 'work-env', tags: 'work-env' }
     - { role: 'emacs', become: yes, tags: 'emacs' }
     - { role: 'docker', become: yes, tags: 'docker' }
     - { role: 'oracle-client', become: yes, tags: 'oracle-client' }
     - { role: 'jdk', become: yes, tags: 'jdk' }
     - { role: 'stunnel-client', become: yes, tags: 'stunnel-client' }
     - { role: 'python3', become: yes, tags: 'python3' }
+    - { role: 'dku', tags: 'dku' }
+    - { role: 'work-env', tags: 'work-env' }
 
 
