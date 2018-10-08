@@ -1,8 +1,8 @@
+---
+# the default Playbook does nothing special
+
 - name: default.yml
   hosts: all
-  vars:
-    ansible_cache: /car/cache/ansible
-  roles:
-    - { role: 'docker', become: yes, tags: 'docker' }
+
 
 
