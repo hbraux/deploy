@@ -1,7 +1,7 @@
 #!/bin/bash
 # This generic script is downloaded and executed by Vagrant provision
 # It installs ansible, runs the embedded playbook which creates a user and 
-# clones the Git repo, then runs the Ansible playbook given in arguments
+# clones this Git repo, then runs the Ansible playbook given in arguments
 # Input arguments: 
 #  $1  Unix user to be created
 #  $2  password or public SSH key (id-rsa xxx)
@@ -9,6 +9,8 @@
 #  $4+ ansible playbook and options
 
 # if the script was not invoked by vagrant, it's a local execution
+who am i
+ps -fu vagrant
 who am i | grep -q vagrant
 if [[ $? -ne 0 ]]; then
   if [[ ${1##*.} == yml ]]; then 
