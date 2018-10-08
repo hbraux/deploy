@@ -1,7 +1,0 @@
----
-
-- include_tasks: install_project.yml
-  with_items: "{{ git_projects }}"
-  loop_control:
-    loop_var: git_path
-

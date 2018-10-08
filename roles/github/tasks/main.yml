@@ -1,0 +1,8 @@
+---
+# a generic playbook to install project from github
+
+- include_tasks: install_project.yml
+  with_items: "{{ github_projects }}"
+  loop_control:
+    loop_var: git_path
+
