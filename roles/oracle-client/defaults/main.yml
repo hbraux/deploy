@@ -1,3 +1,5 @@
+ansible_cache: /var/cache/ansible
+
 oracle:
   version: 12.1
   release: 12.1.0.2.0-1

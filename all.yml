@@ -1,7 +1,5 @@
 - name: all.yml
   hosts: all
-  vars:
-    ansible_cache: /var/cache/ansible
   roles:
     - { role: 'emacs', become: yes, tags: 'emacs' }
     - { role: 'docker', become: yes, tags: 'docker' }
@@ -9,7 +7,6 @@
     - { role: 'jdk', become: yes, tags: 'jdk' }
     - { role: 'stunnel-client', become: yes, tags: 'stunnel-client' }
     - { role: 'python3', become: yes, tags: 'python3' }
-    - { role: 'dku', tags: 'dku' }
-    - { role: 'work-env', tags: 'work-env' }
+    - { role: 'git-project', tags: 'git-project' }
 
 
