@@ -14,7 +14,7 @@
     
 - name: "{{ repo }} : clone the repo from github"
   git:
-    repo: https://github.com/hbraux/{{ git_path }}.git
+    repo: https://github.com/{{ git_path }}.git
     dest: "{{ repo_dir }}"
   delegate_to: localhost
   when: not st.stat.exists
