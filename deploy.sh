@@ -10,9 +10,7 @@
 
 # if the script was not invoked by vagrant, it's a local execution
 who am i
-ps -fu vagrant
-who am i | grep -q vagrant
-if [[ $? -ne 0 ]]; then
+if [[ $USER != root ]]; then
   if [[ ${1##*.} == yml ]]; then 
     if [[ -f $1 ]]; then
       playbook=$1
