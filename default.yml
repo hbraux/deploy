@@ -1,7 +1,7 @@
 - name: default.yml
   hosts: all
   vars:
-    ansible_cache: /vagrant/cache
+    ansible_cache: /car/cache/ansible
   roles:
     - { role: 'docker', become: yes, tags: 'docker' }
 

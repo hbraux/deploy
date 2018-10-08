@@ -1,16 +1,14 @@
 ---
-- set_fact:
-    repo_dir: "{{ ansible_env.HOME }}/git/work-env"
 
-- name: clone the git repo userenv
+- name: clone the github repo {{ role_name}}
   git:
-    repo: https://github.com/hbraux/work-env.git
-    dest: "{{ repo_dir }}"
+    repo: https://github.com/hbraux/{{ role_name}}.git
+    dest: "{{ ansible_env.HOME }}/git/{{ role_name}}"
 
 - name: create the link
   file:
-    src: "{{ repo_dir }}/roles/work-env"
-    dest: "{{ playbook_dir }}/roles/work-env"
+    src: "{{ ansible_env.HOME }}/git/{{ role_name}}/ansible"
+    dest: "{{ playbook_dir }}/roles/"
     state: link
 
 - name: run the embedded playbook

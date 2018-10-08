@@ -209,6 +209,7 @@ ansible-playbook vagrant.yml -e username=$user -e "password=\"$pass\"" -e centos
 echo "(deploy.sh) SETUP ============================================================="
 
 playbook=/home/$user/git/deploy/$1
+shift
 if [[ ! -f $playbook ]] ; then 
   echo "ERROR: file $playbook doesnot exist"; exit 1
 fi
