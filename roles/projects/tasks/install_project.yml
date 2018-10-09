@@ -5,11 +5,11 @@
   when: project_url | regex_search('^http')
 
 - set_fact: 
-    url: https://github.com/{{ project_url }}
+    url: https://github.com/{{ project_url }}.git
   when:  url is not defined
   
 - set_fact: 
-    repo: "{{ project_url | basename }}"
+    repo: "{{ project_url | basename | regex_replace('.git', '') }}"
 
 - set_fact:
     repo_dir: "{{ ansible_env.HOME }}/git/{{ repo }}"
@@ -23,7 +23,7 @@
     
 - name: "{{ repo }} : clone the repo from github"
   git:
-    repo: project_url.git
+    repo: "{{ project_url }}"
     dest: "{{ repo_dir }}"
   delegate_to: localhost
   when: not st.stat.exists
