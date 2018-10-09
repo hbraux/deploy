@@ -9,4 +9,3 @@
     - { role: 'python3', become: yes, tags: 'python3' }
     - { role: 'projects', tags: 'projects' }
 
-
