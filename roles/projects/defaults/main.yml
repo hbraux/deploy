@@ -1,6 +1,5 @@
 # unless a full Git URL is given the playbook looks up on github
 projects_url:
-  - https://github.com/hbraux/work-env.git
   - hbraux/dku
   - hraux/work-env
 

@@ -6,7 +6,7 @@
 
 - set_fact: 
     url: https://github.com/{{ project_url }}.git
-  when:  url is not defined
+  when: not project_url | regex_search('^http')
   
 - set_fact: 
     repo: "{{ project_url | basename | regex_replace('.git', '') }}"
