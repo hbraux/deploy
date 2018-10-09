@@ -21,9 +21,9 @@
   delegate_to: localhost
   register: st
     
-- name: "{{ repo }} : clone the repo from github"
+- name: "{{ repo }} : cloning the repo {{ url }}"
   git:
-    repo: "{{ project_url }}"
+    repo: "{{ url }}"
     dest: "{{ repo_dir }}"
   delegate_to: localhost
   when: not st.stat.exists
