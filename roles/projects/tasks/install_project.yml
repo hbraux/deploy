@@ -1,10 +1,19 @@
 ---
 
 - set_fact:
-    repo: "{{ git_path | basename }}"
+    url: "{{ project_url }}"
+  when: project_url | regex_search('^http')
+
+- set_fact: 
+    url: https://github.com/{{ project_url }}
+  when:  url is not defined
+  
+- set_fact: 
+    repo: "{{ project_url | basename }}"
 
 - set_fact:
     repo_dir: "{{ ansible_env.HOME }}/git/{{ repo }}"
+
 
 - name: "{{ repo }} : check if {{ repo_dir }} exists"
   stat:
@@ -14,12 +23,11 @@
     
 - name: "{{ repo }} : clone the repo from github"
   git:
-    repo: https://github.com/{{ git_path }}.git
+    repo: project_url.git
     dest: "{{ repo_dir }}"
   delegate_to: localhost
   when: not st.stat.exists
 
 - name: "{{ repo }} : run the project playbook setup.yml"
   include_tasks: "{{ repo_dir }}/setup.yml"
-
 

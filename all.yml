@@ -7,6 +7,6 @@
     - { role: 'jdk', become: yes, tags: 'jdk' }
     - { role: 'stunnel-client', become: yes, tags: 'stunnel-client' }
     - { role: 'python3', become: yes, tags: 'python3' }
-    - { role: 'github', tags: 'github' }
+    - { role: 'projects', tags: 'projects' }
 
 
