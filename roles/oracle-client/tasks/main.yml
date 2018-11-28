@@ -24,7 +24,7 @@
 
 - name: create missing directories
   file:
-    path: /usr/lib/oracle/{{ oracle.version }}/client64/${{ item }}
+    path: /usr/lib/oracle/{{ oracle.version }}/client64/{{ item }}
     state: directory
     mode: a+rx
   with_items:
