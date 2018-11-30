@@ -1,0 +1,18 @@
+- name: download netdata installation script
+  get_url:
+    url: https://my-netdata.io/kickstart-static64.sh
+    dest: /opt/kickstart-static64.sh
+  become: true 
+
+- name: install netdata
+  shell: |
+    export https_proxy={{ ansible_env.http_proxy }}
+    export http_proxy={{ ansible_env.http_proxy }}
+    bash /opt/kickstart-static64.sh --accept --quiet
+  args:
+    creates: /opt/netdata
+
+- name : check port 19999
+  wait_for:
+    port: 19999
+

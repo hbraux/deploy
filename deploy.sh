@@ -174,11 +174,21 @@ cat >vagrant.yml <<EOF
         ip: "{{ ip_cmd.stdout }}"
         fqdn: "{{  hostname_cmd.stdout }}"
         
-    - name: update /etc/hosts
+    - name: add {{ fqdn }} to /etc/hosts 
       lineinfile:
         path: /etc/hosts
         regexp: "^.*{{ fqdn }}.*$"
         line: "{{ ip }} {{ fqdn }}"
+
+    - set_fact:
+        hostip: "{{ ip | regex_replace('^(.*)\\.\\d+$', '\\1.1')  }}"
+        hostfqdn: "{{  fqdn | regex_replace('^\\w+\\.(.*)$', 'host.\\1') }}"
+
+    - name: add {{ hostfqdn }} to /etc/hosts 
+      lineinfile:
+        path: /etc/hosts
+        regexp: "^.*{{ hostfqdn }}.*$"
+        line: "{{ hostip }} {{ hostfqdn }}"
 
     - name: check for rpm files in /vagrant/install
       find:
