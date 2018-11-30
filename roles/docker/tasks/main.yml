@@ -37,16 +37,6 @@
 - set_fact:
     fqdn: "{{ hostname_cmd.stdout }}"
 
-- name: configure docker
-  template:
-    src: daemon.json.j2
-    dest: /etc/docker/daemon.json
-
-- name: configure docker.sh
-  template:
-    src: docker.sh.j2
-    dest: /etc/profile.d/docker.sh
-
 - name: start docker services
   service:
     name: docker
