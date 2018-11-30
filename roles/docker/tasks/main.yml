@@ -53,9 +53,13 @@
 - name: get the username running the deploy
   become: false
   local_action: command whoami
-  register: username_host
+  register: whoami_cmd
+  changed_when: false
 
-- name: add user to docker group
+- set_fact:
+    runuser: "{{ whoami_cmd.stdout }}"
+
+- name: add {{ runuser }} to group docker
   user:
-    name: "{{ username_host }}"
+    name: "{{ runuser }}"
     groups: docker
