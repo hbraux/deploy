@@ -1,11 +1,20 @@
-- name: download netdata installation script
+- name: download version file
   get_url:
-    url: https://my-netdata.io/kickstart-static64.sh
-    dest: /opt/kickstart-static64.sh
-  become: true 
+    url: https://raw.githubusercontent.com/netdata/binary-packages/master/netdata-latest.gz.run
+    dest: /tmp/netdata-version
+
+- name: get version from file 
+  shell: cat /tmp/netdata-version
+  register: cat_cmd
+  changed_when: false
+
+- name: download binary
+  get_url:
+    url: https://raw.githubusercontent.com/netdata/binary-packages/master/{{ cat_cmd.stdout }}
+    dest: /tmp/netdata.gz.run
 
 - name: install netdata
-  shell: bash /opt/kickstart-static64.sh --accept --quiet
+  shell: sudo sh /tmp/netdata.gz.run --accept --quiet
   args:
     creates: /opt/netdata
 

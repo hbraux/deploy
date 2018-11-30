@@ -63,3 +63,5 @@
   user:
     name: "{{ runuser }}"
     groups: docker
+    append: yes
+
