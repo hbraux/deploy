@@ -61,7 +61,7 @@ if [[ ! -x /usr/bin/ansible-playbook ]]; then
    yum install -y -q --nogpg ansible
 fi
 
-cat >vagrant.yml <<EOF
+cat >vagrant.yml <<'EOF'
 - hosts: 127.0.0.1
   connection: local
   become: yes
