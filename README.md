@@ -9,7 +9,6 @@ Option A: create a new VM for Windows
 * Install [Vagrant](https://www.vagrantup.com/downloads.html)
 * Install [Kitty](http://www.9bis.net/kitty/), a nice fork of putty
 * If you have a Proxy: install Vagrant [Proxy plugin](https://github.com/tmatilai/vagrant-proxyconf) with command `vagrant plugin install vagrant-proxyconf` and define Windows environment variables VAGRANT_HTTP_PROXY, VAGRANT_HTTPS_PROXY and VAGRANT_NO_PROXY
-* Install VirtualBox guest plugin : `vagrant plugin install vagrant-vbguest`
 * Optionnaly define Windows environment variable CENTOS_MIRROR to your prefered CentOS mirror (fqdn)
 * Download [Vagrantfile](https://raw.githubusercontent.com/hbraux/deploy/master/Vagrantfile) from the repo and save it to a work directory
 * Adapt the parameters in the header ot the file

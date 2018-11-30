@@ -5,10 +5,7 @@
   become: true 
 
 - name: install netdata
-  shell: |
-    export https_proxy={{ ansible_env.http_proxy }}
-    export http_proxy={{ ansible_env.http_proxy }}
-    bash /opt/kickstart-static64.sh --accept --quiet
+  shell: bash /opt/kickstart-static64.sh --accept --quiet
   args:
     creates: /opt/netdata
 
