@@ -188,7 +188,7 @@ cat >vagrant.yml <<'EOF'
       lineinfile:
         path: /etc/hosts
         regexp: "^.*{{ hostfqdn }}.*$"
-        line: "{{ hostip }} {{ hostfqdn }}"
+        line: "{{ hostip }} {{ hostfqdn }} host"
 
     - name: check for rpm files in /vagrant/install
       find:
