@@ -50,4 +50,12 @@
     mode: 0755
   when: docker_compose
 
+- name: get the username running the deploy
+  become: false
+  local_action: command whoami
+  register: username_host
 
+- name: add user to docker group
+  user:
+    name: "{{ username_host }}"
+    groups: docker
