@@ -9,7 +9,7 @@ BOX_NOSYNC = true
 PASSWORD = "password"
 
 # Ansible playbook and options
-PLAYBOOK_ARGS="default.yml -tags docker"
+PLAYBOOK_ARGS="default.yml --tags emacs,docker,netdata"
 
 Vagrant.configure("2") do |config|
         passkey = PASSWORD

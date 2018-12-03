@@ -204,11 +204,7 @@ cat >vagrant.yml <<'EOF'
       when: rpm_files.matched > 0
 
     - name: update /etc/motd
-      command: echo "
-**************************************************************************
-* This box was created with Vagrant and https://github.com/hbraux/deploy *
-**************************************************************************
-" > /etc/motd
+      command: echo -e "**************************************************************************\nThis box was created with Vagrant and https://github.com/hbraux/deploy *\n**************************************************************************\n" > /etc/motd
 
 
   handlers:
