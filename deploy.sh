@@ -204,8 +204,7 @@ cat >vagrant.yml <<'EOF'
       when: rpm_files.matched > 0
 
     - name: update /etc/motd
-      command: echo -e "**************************************************************************\nThis box was created with Vagrant and https://github.com/hbraux/deploy *\n**************************************************************************\n" > /etc/motd
-
+      shell: echo -e "**************************************************************************\n WELCOME!\n\nThis box was created with Vagrant and https://github.com/hbraux/deploy\nUser {{ username }} has sudo permissions\nRun $HOME/git/deploy/deploy.sh finalize.yml to complete installation\n**************************************************************************>/etc/motd
 
   handlers:
     - name: restart sshd

@@ -1,0 +1,17 @@
+---
+
+- name: finalize.yml
+  hosts: all
+  become: yes
+  tasks:
+    - name: remove vagrant user
+      user:
+        name: vagrant
+        state: absent
+    
+    - name: cleanup /etc/motd
+      shell: echo >/etc/motd
+
+
+
+
