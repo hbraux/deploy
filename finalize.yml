@@ -9,7 +9,7 @@
         name: vagrant
         state: absent
     
-    - name: cleanup /etc/motd
+    - name: cleanup all messages from /etc/motd
       shell: echo >/etc/motd
 
 

@@ -65,3 +65,9 @@
     groups: docker
     append: yes
 
+- name: add message to motd
+  lineinfile:
+    path: /etc/motd
+    regexp: "^docker .*"
+    line: "docker is running on this server"
+
