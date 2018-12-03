@@ -203,6 +203,14 @@ cat >vagrant.yml <<'EOF'
       with_items: "{{ rpm_files.files|map(attribute='path')|list }}"
       when: rpm_files.matched > 0
 
+    - name: update /etc/motd
+      command: echo "
+**************************************************************************
+* This box was created with Vagrant and https://github.com/hbraux/deploy *
+**************************************************************************
+" > /etc/motd
+
+
   handlers:
     - name: restart sshd
       service:
