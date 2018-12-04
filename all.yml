@@ -1,12 +1,36 @@
 - name: all.yml
   hosts: all
   roles:
-    - { role: 'emacs', become: yes, tags: 'emacs' }
-    - { role: 'docker', become: yes, tags: 'docker' }
-    - { role: 'oracle-client', become: yes, tags: 'oracle-client' }
-    - { role: 'jdk', become: yes, tags: 'jdk' }
-    - { role: 'stunnel-client', become: yes, tags: 'stunnel-client' }
-    - { role: 'python3', become: yes, tags: 'python3' }
-    - { role: 'netdata', become: yes, tags: 'netdata' }
-    - { role: 'projects', tags: 'projects' }
+    - role: "emacs"
+      become: yes
+      tags: "emacs"
+
+    - role: "docker"
+      become: yes
+      tags: "docker"
+
+    - role: "oracle-client"
+      become: yes
+      tags: "oracle-client" 
+
+    - role: "jdk"
+      become: yes
+      tags: "jdk"
+
+    - role: "stunnel-client"
+      become: yes
+      tags: "stunnel-client"
+
+    - role: "python3"
+      become: yes
+      tags: "python3
+"
+    - role: "netdata"
+      become: yes
+      tags: "netdata"
+      environment:
+        https_proxy: "{{ ansible_env.http_proxy }}"
+
+    - role: projects
+      tags: "projects" 
 

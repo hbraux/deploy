@@ -1,6 +1,4 @@
 - name: download version file
-  environment:
-    https_proxy={{ ansible_env.http_proxy }}
   get_url:
     url: https://raw.githubusercontent.com/netdata/binary-packages/master/netdata-latest.gz.run
     dest: /tmp/netdata-version
@@ -11,14 +9,12 @@
   changed_when: false
 
 - name: download binary
-  environment:
-    https_proxy={{ ansible_env.http_proxy }}
   get_url:
     url: https://raw.githubusercontent.com/netdata/binary-packages/master/{{ cat_cmd.stdout }}
     dest: /tmp/netdata.gz.run
 
 - name: install netdata
-  shell: sudo sh /tmp/netdata.gz.run --accept --quiet
+  shell: sh /tmp/netdata.gz.run --accept --quiet
   args:
     creates: /opt/netdata
 
