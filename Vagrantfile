@@ -6,6 +6,8 @@ BOX_CPU = "1"
 BOX_IP = "192.168.56.2"
 # change to false to mount the Vagrant folder
 BOX_NOSYNC = true
+# by default username is host's user
+USERNAME = #{ENV['USERNAME']} 
 PASSWORD = "password"
 
 # Ansible playbook and options
@@ -31,6 +33,6 @@ Vagrant.configure("2") do |config|
 Add this line to your Windows hosts file: #{BOX_IP} #{BOX_NAME}.#{BOX_DOMAIN}
 Login with putty as user #{ENV['USERNAME']}/#{PASSWORD}"]
 	end
-	config.vm.provision 'shell', inline: "curl -s https://raw.githubusercontent.com/hbraux/deploy/master/deploy.sh | bash -s #{ENV['USERNAME']} '#{passkey}' #{ENV['CENTOS_MIRROR']} #{PLAYBOOK_ARGS}"
+	config.vm.provision 'shell', inline: "curl -s https://raw.githubusercontent.com/hbraux/deploy/master/deploy.sh | bash -s #{USERNAME} '#{passkey}' #{ENV['CENTOS_MIRROR']} #{PLAYBOOK_ARGS}"
 end
 
