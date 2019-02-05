@@ -73,7 +73,7 @@ cat >vagrant.yml <<'EOF'
   become: yes
   tasks:
     - name: install must-have packages
-      package
+      package:
         name: "{{ item }}"
       with_items: ["sudo","git","nano"]
 
