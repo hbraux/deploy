@@ -129,6 +129,10 @@ cat >vagrant.yml <<'EOF'
       register: hostname_cmd
       changed_when: false
 
+    - fail:
+        msg: hostname {{ hostname_cmd.stdout }} is not a FQDN
+      when: not hostname_cmd.stdout | regex_search('.+\..+\.')
+
     - name: update .ssh/config
       blockinfile:
         path: /home/{{ username }}/.ssh/config
