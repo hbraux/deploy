@@ -18,7 +18,7 @@ Option A: create a new VM for Windows
 * Connect with kitty to 192.168.56.2 (or whatever IP you specified in the file) with your Windows's username and either the private key file or the defaut password in Vagrantfile. This UNIX user has sudo access.
 
 Option B: from an existing VM
-* clone the git repo and run setup.sh
+* from root,  curl -s https://raw.githubusercontent.com/hbraux/deploy/master/deploy.sh | bash -s USER PASS default.yml
 
 ### Roles
 The installation script `deploy.sh` supports the following Playbook and ansible roles to be provided as arguments with --tags xxx

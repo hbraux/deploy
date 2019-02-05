@@ -55,9 +55,15 @@ fi
 
 set -e
 
+ostype=$(sed -n 's/^ID=\(.*\)/\1/p' /etc/os-release | sed 's/"//g')
+
 if [[ ! -x /usr/bin/ansible-playbook ]]; then 
    echo "(deploy.sh) installing Ansible"
-   yum install -y -q --nogpg ansible
+   case $ostype in:
+     centos) yum install -y -q --nogpg ansible;;
+     ubuntu) apt-get install -qy ansible;;
+     *) echo "Unsupported OS type $ostype"; exit 1;;
+   esac
 fi
 
 cat >vagrant.yml <<'EOF'
