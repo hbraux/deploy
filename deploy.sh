@@ -60,7 +60,7 @@ ostype=$(sed -n 's/^ID=\(.*\)/\1/p' /etc/os-release | sed 's/"//g')
 
 if [[ ! -x /usr/bin/ansible-playbook ]]; then 
    echo "(deploy.sh) installing Ansible"
-   case $ostype in:
+   case $ostype in
      centos) yum install -y -q --nogpg ansible;;
      ubuntu) apt-get install -qs ansible;;
      *) echo "Unsupported OS type $ostype"; exit 1;;
