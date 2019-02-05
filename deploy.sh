@@ -158,15 +158,15 @@ cat >vagrant.yml <<'EOF'
         baseurl: http://{{ centos_mirror }}/fedora/epel/\$releasever/\$basearch/
         gpgcheck: no
         proxy: _none_
-      when: centos_mirror != "" 
+      when: ansible_distribution == 'CentOS' and centos_mirror != "" 
         
     - name: Add Epel repo (using yum)
-      yum:
+      package:
         name: epel-release
       when: centos_mirror == ""
  
     - name: install Epel packages
-      yum:
+      package:
         name: "{{ item }}"
       with_items:
         - python-pip 
@@ -204,7 +204,7 @@ cat >vagrant.yml <<'EOF'
       register: rpm_files
 
     - name: install rpm files from /vagrant/install
-      yum:
+      package:
         name: "{{ item }}"
       with_items: "{{ rpm_files.files|map(attribute='path')|list }}"
       when: rpm_files.matched > 0
