@@ -1,12 +1,11 @@
 #!/bin/bash
-# This generic script is downloaded and executed by Vagrant provision
+# This generic script is downl
 # It installs ansible, runs the embedded playbook which creates a user and 
 # clones this Git repo, then runs the Ansible playbook given in arguments
 # Input arguments: 
 #  $1  Unix user to be created
-#  $2  password or public SSH key (id-rsa xxx)
-#  $3  fqdn or @IP of a CentOS mirror (optional)
-#  $4+ ansible playbook and options
+#  $2  password 
+#  $3+ ansible playbook and options
 
 # if the script was not invoked by vagrant, it's a local execution
 who am i
@@ -67,7 +66,7 @@ cat >vagrant.yml <<'EOF'
   become: yes
   tasks:
     - name: install must-have packages
-      package
+      yum:
         name: "{{ item }}"
       with_items: ["sudo","git","nano"]
 
