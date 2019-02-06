@@ -1,11 +1,19 @@
 ---
 
 - name: install emacs
-  yum:
+  package:
     name: emacs-nox
 
+- set_fact:
+    modes: ['yaml-mode']
+  when: ansible_os_family == "Debian"
+  
+- set_fact:
+    modes: ['emacs-yaml-mode']
+  when: ansible_os_family == "Redhat"
+  
+      
 - name: install emacs modes
-  yum:
-    name: ["emacs-yaml-mode"]
-
+  package:
+    name: "{{ modes }}"
 

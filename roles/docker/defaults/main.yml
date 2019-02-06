@@ -1,1 +1,2 @@
-docker_compose: no
+docker_compose: yes
+

@@ -1,5 +1,14 @@
-- name: install JDK8
-  yum:
-    name: java-1.8.0-openjdk-headless
+- set_fact:
+    package: java-1.8.0-openjdk-headless
+  when: ansible_os_family == "Redhat"
+
+- set_fact:
+    package: openjdk-8-jdk
+  when: ansible_os_family == "Debian"
+
+- name: install JDK8 
+  package:
+    name: "{{ package }}"
+
 
 

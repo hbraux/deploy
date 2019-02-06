@@ -3,13 +3,24 @@
     src: 01-docker.conf
     dest: /etc/sysctl.d/01-docker.conf
 
-- name: add Docker CE repository
+- name: add Docker CE repository (CentOS)
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
+  when: ansible_distribution == 'CentOS'
 
+- name: install key (Ubuntu)
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  when: false and ansible_distribution == 'Ubuntu'
+
+- name: add Docker CE repository (Ubuntu)
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+    
 - name : install docker
-  yum:
+  package:
     name: docker-ce
 
 - name: create directory /etc/systemd/system/docker.service.d
