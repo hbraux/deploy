@@ -76,9 +76,14 @@
     groups: docker
     append: yes
 
+- name: check if /etc/motd exists
+  stat:
+    path: /etc/motd
+  register: motd_stat
+  
 - name: add message to motd
   lineinfile:
     path: /etc/motd
     regexp: "^docker .*"
     line: "docker is running on this server"
-
+  when: motd_stat.stat.exists
