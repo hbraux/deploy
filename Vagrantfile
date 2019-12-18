@@ -11,7 +11,7 @@ USERNAME = ENV['USERNAME']
 PASSWORD = "password"
 
 # Ansible playbook and options
-PLAYBOOK_ARGS="default.yml --tags emacs,docker,netdata"
+PLAYBOOK_ARGS="all.yml --tags emacs,docker,netdata"
 
 Vagrant.configure("2") do |config|
         passkey = PASSWORD
